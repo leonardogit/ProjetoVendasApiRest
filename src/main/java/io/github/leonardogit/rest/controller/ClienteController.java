@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -32,5 +33,16 @@ public class ClienteController {
     public ResponseEntity save(@RequestBody Cliente cliente){
         Cliente clienteSave = clientes.save(cliente);
         return ResponseEntity.ok(clienteSave);
+    }
+
+    @DeleteMapping("/api/clientes/{id}")
+    @ResponseBody
+    public ResponseEntity delete(@PathVariable Integer id){
+        Optional<Cliente> clienteDelete = clientes.findById(id);
+        if (clienteDelete.isPresent()){
+            clientes.delete(clienteDelete.get());
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
