@@ -27,4 +27,10 @@ public class ClienteController {
         return ResponseEntity.notFound().build();
     }
 
+    @PostMapping("/api/clientes")
+    @ResponseBody
+    public ResponseEntity save(@RequestBody Cliente cliente){
+        Cliente clienteSave = clientes.save(cliente);
+        return ResponseEntity.ok(clienteSave);
+    }
 }
