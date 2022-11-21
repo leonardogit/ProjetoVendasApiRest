@@ -2,6 +2,7 @@ package io.github.leonardogit.rest.controller;
 
 import io.github.leonardogit.domain.entity.Cliente;
 import io.github.leonardogit.domain.repository.Clientes;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,12 @@ public class ClienteController {
 
     public ClienteController(Clientes clientes) {
         this.clientes = clientes;
+    }
+
+    @GetMapping("/api/clientes/all")
+    @ResponseBody //Maneira correta para implementação seria diratamente pelo Service
+    public List<Cliente> findAll(){
+            return clientes.findAll();
     }
 
     @GetMapping("/api/clientes/{id}")
@@ -41,7 +48,7 @@ public class ClienteController {
         Optional<Cliente> clienteDelete = clientes.findById(id);
         if (clienteDelete.isPresent()){
             clientes.delete(clienteDelete.get());
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }
