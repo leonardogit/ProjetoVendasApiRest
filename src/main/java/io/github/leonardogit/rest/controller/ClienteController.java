@@ -52,4 +52,19 @@ public class ClienteController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @PutMapping ("api/clientes/{id}")//Atualizar integralmente recurso no servidor , caso enviar algum propriedade nula deve ser att sem os dados nulos
+    @ResponseBody
+    public ResponseEntity update( @PathVariable Integer id ,
+                                  @RequestBody Cliente cliente ){
+
+        return clientes
+                .findById(id)
+                .map( clienteExistente -> {
+                   cliente.setId(clienteExistente.getId());//map = se existir algum resultado ele irá executar comando , método map sempre deve retornar um objeto
+                   clientes.save(cliente);
+                   return ResponseEntity.noContent().build();
+                }).orElseGet( () -> ResponseEntity.notFound().build());
+    }
+
 }
