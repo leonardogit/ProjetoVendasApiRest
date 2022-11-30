@@ -57,7 +57,6 @@ public class ClienteController {
     @ResponseBody
     public ResponseEntity update( @PathVariable Integer id ,
                                   @RequestBody Cliente cliente ){
-
         return clientes
                 .findById(id)
                 .map( clienteExistente -> {
